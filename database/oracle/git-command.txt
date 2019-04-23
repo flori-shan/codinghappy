@@ -1,0 +1,55 @@
+工作区是我们能看到的区域，在工作区修改增加代码
+完成编辑后，我们用git add 将工作区文件添加到暂存区
+利用git commit 提交文件到我们自己的分支
+
+git checkout --files 或 git checkout .
+把文件从暂存区域复制到工作目录，用来丢弃工作区修改，不改变暂存区
+
+git add files 或者 git add .
+工作区添加文件到暂存区, .代表全部文件
+
+git reset -- files 或者 git reset .
+清空暂存区文件，不改变工作区
+
+git rm --cached files
+直接从暂存区删除文件，工作区则不做出改变
+
+关于git reset：
+命令格式：git reset [--soft | --mixed | --hard] [<commit>]
+
+参数--hard，如 git reset --hard <commitID>
+替换引用的指向，引用指向新的提交ID。
+
+替换暂存区，替换后，暂存区的内容和引用指向的目录树一致
+替换工作区，替换后，工作区的内容变得和暂存区一致，也和HEAD所指向的目录树内容相同。
+
+使用参数 --soft，如 git reset --soft <commitID>
+只更改引用的指向，不改变暂存区和工作区。
+
+参数--mixed 或者不使用参数（默认为--mixed），如 git reset <commit>
+更改引用的指向及重置暂存区，但是不改变工作区。
+
+git reset 或者 git reset HEAD
+仅用HEAD指向的目录树重置暂存区，工作区不会受到影响，相当于将之前用git add 
+命令更新到暂存区的内容撤出暂存区。引用也未改变，因为引用重置到HEAD相当于没有重置。
+
+git reset -- filename  或者 git reset HEAD filename
+仅将文件 filename 的改动撤出暂存区，暂存区中其他文件不改变。相当于命令git add filename 的反射操作。
+
+git reset --soft HEAD^
+工作区和暂存区不改变，但是引用向前回退一次。当对最新的提交说明或者提交的更改不满意时，撤销最新的提交以便重新提交。
+
+git reset HEAD^或者git reset --mixed HEAD^
+工作不改变，但是暂存区会回退到上一次提交之前，引用也会回退一次。
+
+git reset --hard HEAD^
+彻底撤销最近的提交。引用回退到前一次，而且工作区和暂存区都会回退到上一次提交的状态。自上一次以来的提交全部丢失。
+
+
+三、远程操作
+显示配置了哪些远程服务器：               $ git remote                                     
+显示配置了哪些远程服务器，同时显示URL：   $ git remote -v             
+显示远程 详细信息：                     $ git remote show origin
+修改远程标识名字：                      $ git remote rename A  B
+删除远程配置：                          $ git remote rm A
+增加一个远程配置：                      $ git remote add A git://github.com/paulboone/ticgit.git 

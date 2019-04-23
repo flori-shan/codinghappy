@@ -1,0 +1,12 @@
+SAS - STATISTICAL ANALYSIS SYSTEM 统计分析系统
+ELB - Elastic Load Balancer 弹性负载均衡器
+ALB - Application Load Balancer 应用负载均衡器
+SNS - Simple Notification Server 简单消息通知服务
+SQS - Simple Queue Service 简单队列服务 (标准队列和 FIFO 队列)
+MQTT - Message Queuing Telemetry Transport  消息队列遥测传输
+
+ASP - Average Sale Price 平均销售单价
+
+WebSocket
+在HTTP中永远是这样，也就是说一个request只能有一个response
+首先Websocket是基于HTTP协议的，或者说借用了HTTP的协议来完成一部分握手

@@ -1,0 +1,12 @@
+javac -classpath ..\algs4-bin.jar 
+javac -classpath ..\algs4-bin.jar -d . BinarySearch.java
+
+
+
+可能需要依赖额外的jar包，那么javac 和 Java 
+
+在编译和运行时我们也要加上依赖的jar包，需要注意的是，使用 java -cp 有额外的jar的时候：
+在Linux下面ClassPath前面是一个点号加一个冒号；在Windows下面ClassPath前面是一个点号加一个分号
+
+javac -cp .;D:\ochadoop4.0.1\hive-0.13.1-cdh5.2.1-och4.0.1\user_lib\hive--jdbc-0.13.1-cdh5.2.1.jar HiveJdbcClient.java
+java -cp .;D:\ochadoop4.0.1\hive-0.13.1-cdh5.2.1-och4.0.1\user_lib\hive-jdbc-0.13.1-cdh5.2.1.jar HiveJdbcClient

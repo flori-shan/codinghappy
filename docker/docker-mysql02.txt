@@ -1,0 +1,39 @@
+docker run --name first-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+
+docker run -d -p 4306:3306
+    -e MYSQL_USER="fengwei"
+    -e MYSQL_PASSWORD="pwd123"
+    -e MYSQL_ROOT_PASSWORD="rootpwd123"
+    --name mysql001 mysql/mysql-server
+    --character-set-server=utf8
+    --collation-server=utf8_general_ci
+
+-e MYSQL_USER="adduser"     ：添加用户
+-e MYSQL_PASSWORD="pwd123"  ：设置添加用户的密码
+-e MYSQL_ROOT_PASSWORD="rootpwd123"     ：设置root的密码
+–character-set-server=utf8  ：设置字符集为utf8
+–collation-server=utf8_general_ci   ：设置字符比较规则为utf8_general_ci
+
+
+==============================================
+my.cnf
+-------------------------
+[client]
+default-character-set=utf8mb4
+
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+init_connect='SET NAMES utf8mb4'
+max_connections = 300
+skip_name_resolve 
+
+[mysql]
+default-character-set=utf8mb4
+
+docker cp /home/my.cnf(宿主机文件路径) [容器id]:/etc/mysql/mysql.conf.d
+--------------------
+–privileged=true：提升容器内权限
+-v /mysqltest/config/my.cnf:/etc/my.cnf：映射配置文件
+-v /mysqltest/data:/var/lib/mysql：映射数据目录

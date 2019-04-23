@@ -1,0 +1,16 @@
+select * from v$nls_parameters;
+select * from nls_database_parameters;
+
+
+shutdown immediate;
+startup mount;
+alter session set sql_trace=true; 
+alter system enable restricted session;
+alter system set job_queue_processes=0; 
+alter system set aq_tm_processes=0;
+alter database open;
+
+ALTER DATABASE character set INTERNAL_USE AL32UTF8;
+
+alter system set nls_language='...' scope=spfile;
+alter system set NLS_TERRITORY='AMERICAN' scope=spfile;

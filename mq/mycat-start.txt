@@ -1,0 +1,63 @@
+http://songwie.com/teachs?searthstr=Mycat&start=0&limit=100
+
+mycat/conf/server.xml
+
+<user name="root">
+    //用户名和密码随意设置  
+    <property name="password">root</property>
+    <property name="schemas">ORACLEDB</property>
+    //schemas对应schema.xml中的schema  如果有多个用逗号隔开
+</user>
+<user name="admin">
+    <property name="password">admin</property>
+    <property name="schemas">ORACLEDB</property>
+    <property name="readOnly">true</property>
+</user>
+
+mycat/conf/schema.xml
+conf/wrapper.conf
+# Java Additional Parameters
+#wrapper.java.additional.1=
+wrapper.java.additional.1=-DMYCAT_HOME=.
+wrapper.java.additional.2=-server
+wrapper.java.additional.3=-XX:MaxPermSize=64M
+wrapper.java.additional.4=-XX:+AggressiveOpts
+wrapper.java.additional.5=-XX:MaxDirectMemorySize=2G
+wrapper.java.additional.6=-Dcom.sun.management.jmxremote
+wrapper.java.additional.7=-Dcom.sun.management.jmxremote.port=1984
+wrapper.java.additional.8=-Dcom.sun.management.jmxremote.authenticate=false
+wrapper.java.additional.9=-Dcom.sun.management.jmxremote.ssl=false
+wrapper.java.additional.10=-Xmx4G
+wrapper.java.additional.11=-Xms1G
+
+连接测试： 
+测试mycat与测试mysql完全一致，mysql怎么连接，mycat就怎么连接
+命令行：mysql -uroot -proot -P8066 -h127.0.0.1（其中，user和password可在conf/server.xml配置查找，8066是默认的服务端口，也可以在conf/server.xml中配置修改）
+客户端：1.3和1.4版本目前部分工具无法连接，会提示database not selected，建议使用高版本的Mycat，1.5版本已经修复了部分客户端工具的连接
+
+==============================================================
+
+schema.xml 解析：https://www.cnblogs.com/zhangtan/p/5760651.html
+
+1. dataNode
+该属性用于绑定逻辑库到某个具体的database上，如果定义了这个属性，那么这个逻辑库就不能工作在分库分表模式下了。
+也就是说对这个逻辑库的所有操作会直接作用到绑定的dataNode上，这个schema就可以用作读写分离和主从切换，具体如下配置:
+<schema name="USERDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn1">
+<!—这里不能配置任何逻辑表信息-->
+</schema>
+那么现在USERDB就绑定到dn1所配置的具体database上，可以直接访问这个database。
+当然该属性只能配置绑定到一个database上，不能绑定多个dn。
+
+checkSQLschema
+当该值设置为 true 时，如果我们执行语句 select * from TESTDB.travelrecord;
+则 MyCat 会把语句修改为 select * from travelrecord; 即把表示schema的字符去掉，
+避免发送到后端数据库执行时报**（ERROR 1146 (42S02): Table ‘testdb.travelrecord’ doesn’t exist）。
+不过，即使设置该值为 true ，如果语句所带的是并非是schema指定的名字，例如： select * from db1.travelrecord;  那么MyCat并不会删除db1这个字段，如果没有定义该库的话则会报错，所以在提供SQL语句的最好是不带这个字段。
+
+sqlMaxLimit 当该值设置为某个数值时。
+每条执行的SQL语句，如果没有加上limit语句，MyCat也会自动的加上所对应的值。
+例如设置值为100，执行 select * from TESTDB.travelrecord; 的效果为和执行 select * from TESTDB.travelrecord limit 100;相同
+不设置该值的话，MyCat默认会把查询到的信息全部都展示出来，造成过多的输出。
+所以，在正常使用中，还是建议加上一个值，用于减少过多的数据返回。
+当然SQL语句中也显式的指定limit的大小，不受该属性的约束。
+

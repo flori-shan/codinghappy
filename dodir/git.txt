@@ -1,0 +1,25 @@
+git -c diff.mnemonicprefix=false -c core.quotepath=false fetch origin
+
+
+git -c diff.mnemonicprefix=false -c core.quotepath=false fetch origin
+git -c diff.mnemonicprefix=false -c core.quotepath=false pull origin develop
+
+
+git -c diff.mnemonicprefix=false -c core.quotepath=false fetch origin
+
+
+git -c diff.mnemonicprefix=false -c core.quotepath=false checkout develop
+git -c diff.mnemonicprefix=false -c core.quotepath=false submodule update --init
+
+
+git -c diff.mnemonicprefix=false -c core.quotepath=false push -v --tags origin develop:develop
+
+
+git -c filter.lfs.smudge= -c filter.lfs.required=false -c diff.mnemonicprefix=false -c core.quotepath=false clone --branch master gitolite@192.168.1.5:fairsrc1 D:\eclipse\jee\fairsrc1\src
+
+
+
+Merge branch 'feature/feidu' into HEAD
+
+# Conflicts:
+#	com/agilecontrol/fair/FairConfig.java

@@ -1,0 +1,17 @@
+list.txt:
+E:\algorithm\test\BinarySearch.java
+E:\algorithm\test\Drill01.java
+E:\algorithm\test\DrillClass01.java
+E:\algorithm\test\DrillClassMain.java
+-----------------------------------------------
+
+SET EXECLASS="com.example.algorithm.BinarySearch"
+SET COMPLIERCLASS="E:\algorithm\test\BinarySearch.java"
+SET LISTCLASS="@E:\list.txt"
+SET CLASS=".;E:\algorithm\algs4-bin.jar;E:\algorithm\test"
+SET SOURCEPATH="E:\algorithm\test"
+
+javac -encoding UTF-8 -cp %CLASS% -d %SOURCEPATH% %LISTCLASS%
+java -cp %CLASS% %EXECLASS% algorithm\algs4-data\tinyW.txt
+
+------------------------------------------------

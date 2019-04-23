@@ -1,0 +1,11 @@
+1. 未提交
+git add -f -- hello
+
+取消暂存：git reset -q -- hello
+暂存后丢弃：git rm -q --cached -- hello
+工作区丢弃：git checkout -- hello
+
+git commit -q -F C:\Users\yzx\AppData\Local\Temp\sna0p44j.jqv
+
+2. 已提交
+git add -f -- dodir/git-reback.txt

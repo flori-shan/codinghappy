@@ -1,0 +1,26 @@
+SET EXECLASS="com.example.algorithm.BinarySearch"
+SET COMPLIERCLASS="E:\algorithm\test\BinarySearch.java"
+SET LISTCLASS="@E:\list.txt"
+SET BATCHCLASS="D:\eclipse\sts\javamvn\src\*.java"
+SET CLASS=".;E:\algorithm\algs4-bin.jar;D:\repo\org\apache\commons\commons-lang3\3.7\commons-lang3-3.7.jar;E:\algorithm\test"
+SET SOURCEPATH="E:\algorithm\test"
+SET DATAFILE="E:\algorithm\algs4-data\largeW.txt"
+
+javac -encoding UTF-8 -cp %CLASS% -d %SOURCEPATH% %LISTCLASS%
+
+
+=====================================================================
+
+SET EXECOMCLASS="com.example.algorithm.BinarySearch"
+SET COMPLIERCLASS="E:\algorithm\test\BinarySearch.java"
+SET LISTCLASS="@E:\list.txt"
+SET CLASS=".;E:\algorithm\algs4-bin.jar;D:\repo\org\apache\commons\commons-lang3\3.7\commons-lang3-3.7.jar;E:\algorithm\test"
+SET SOURCEPATH="E:\algorithm\test"
+SET DATAFILE="E:\algorithm\algs4-data\tinyW.txt"
+SET PARAMS=%1
+
+java -Xms2048m -Xmx2048m -Xmn1g -Xss512k -cp %CLASS% %EXECOMCLASS% %DATAFILE%
+
+
+常见参数种类（配置内存）：（-Xms 、-Xmx、-XX:newSize、-XX:MaxnewSize、-Xmn）、（-XX:PermSize、-XX:MaxPermSize）。可以从列参数的配置是分组的，前者是用来配置堆区的，后者是用来配置非堆区的。
+第一组配置参数：-Xms 、-Xmx、-XX:newSize、-XX:MaxnewSize、-Xmn

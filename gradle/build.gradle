@@ -1,0 +1,61 @@
+plugins {
+    id 'java-library'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+}
+
+def ext = [
+        spring-version : "4.3.20.RELEASE",
+        mybatis-version : "3.4.6"
+    ]
+
+subprojects{
+    repositories{
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+    }
+    dependencies{
+        compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    
+    [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+    
+    jar {
+        manifest {
+            attributes("Implementation-Title": "Gradle")
+        }
+    }
+}
+
+def createDir = {
+    path-> File dir=new File(path);
+    if (!dir.exists()){ dir.mkdirs(); }
+}
+
+task makeJavaDir(){
+    def paths = ['src/main/java','src/main/resources','src/test/java','src/test/resources'];
+    doFirst { paths.forEach(createDir); }
+}
+
+task makeWebDir(){
+    dependsOn 'makeJavaDir'
+    def paths=['src/main/webapp','src/test/webapp'];
+    doLast { paths.forEach(createDir); }
+}
+
+dependencies {
+    compile 'org.springframework:spring-context:$rootProject.ext.spring-version'
+    compile group: 'org.mybatis', name: 'mybatis', version: '${rootProject.ext.mybatis-version}'
+    testImplementation 'junit:junit:4.12'
+}
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}

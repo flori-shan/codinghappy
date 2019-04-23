@@ -1,0 +1,6 @@
+git reset -q HEAD -- dodir/new.txt
+git checkout HEAD -- dodir/new.txt
+
+HEAD -> dir : git checkout [file]
+cache -> dir : git reset [file]
+

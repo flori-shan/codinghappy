@@ -1,0 +1,55 @@
+一.修改最近一次提交
+
+方法一：用commit –amend
+这种方法不仅可以修改commit message，也可以修改提交内容。
+这种方式在还没有推送到远端的情况下可以比较方便的保持原有的Change-Id，推荐使用（若已经推送到远端，Change-Id则会修改掉）。
+
+#修改需要修改的地方（只是修改commit message就不用做)
+git add .  #这一步如果只是修改commit message不用输入
+git commit --amend
+#输入修改后的commit message，保存
+git push <remote> <branch> -f #若还没有推送到远端，不用输入
+
+方法二：用reset后修改
+这种方法与上面方法基本一致，也可以修改提交内容和commit message。这种方式在还没有推送到远端的情况下也可以比较方便的保持原有的Change-Id，（若已经推送到远端，Change-Id则会修改掉）。
+
+git reset HEAD^
+#修改需要修改的地方（只是修改commit message就不用做)
+git add . #这一步如果只是修改commit message不用输入
+git commit -m "new commit message" #或者git commit -c ORIG_HEAD
+git push <remote> <branch> -f #若还没有推送到远端，不用输入
+
+方法三：提交到了错误的分支上的处理
+# 取消最新的提交，然后保留现场原状
+git reset HEAD~ --soft
+git stash
+
+# 切换到正确的分支
+git checkout name-of-the-correct-branch
+git stash pop
+git add .    # 或添加特定文件
+git commit -m "你的提交说明"
+----------------------------------
+git checkout name-of-the-correct-branch
+# 把主分支上的最新提交摘过来，嘻嘻～～
+git cherry-pick master
+# 再删掉主分支上的最新提交
+git checkout master
+git reset HEAD~ --hard
+
+
+二.修改很久之前的一次提交
+1.查看修改
+
+git rebase -i master~1 #最后一次
+git rebase -i master~5 #最后五次
+git rebase -i HEAD~3   #当前版本的倒数第三次状态
+git rebase -i 32e0a87f #指定的SHA位置
+
+#修改需要修改的地方（只是修改commit message就不用做)
+git add . #这一步如果只是修改commit message不用输入
+git commit --amend 
+#输入修改后的commit message，保存
+
+使用 git rebase –continue 完成操作
+git push <remote> <branch> -f 

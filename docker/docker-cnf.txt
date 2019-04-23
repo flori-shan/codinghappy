@@ -1,0 +1,9 @@
+Centos7 :
+/usr/lib/systemd/system/docker.service ->
+ExecStart=/usr/bin/dockerd --graph /data/docker/imagedata
+
+systemctl daemon-reload
+systemctl restart docker.service
+
+docker是1.12或以上的版本 ->  /etc/docker/daemon.json
+{"registry-mirrors":"https://registry.docker-cn.com","graph":"/data/docker/imagedata"}

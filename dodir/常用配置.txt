@@ -1,0 +1,8 @@
+1. git :
+portal5util : git@prj2.lifecycle.cn:java/portal5ut.git
+portal5 : git@prj2.lifecycle.cn:java/portal5java.git
+
+服装1：git@prj2.lifecycle.cn:java/fairsrc.git
+服装2：git@prj2.lifecycle.cn:java/fairsrc2.git
+鞋业版1： git@prj2.lifecycle.cn:java/shoefairsrc1.git
+鞋业版2 ： git@prj2.lifecycle.cn:java/shoefairsrc2.git

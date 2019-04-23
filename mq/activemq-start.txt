@@ -1,0 +1,5 @@
+1、启动 
+直接运行bin目录下：activemq.bat 
+2、可视化界面 
+浏览器中：http://localhost:8161/admin/index.jsp 
+用户名，密码在：jetty-realm.properties中设置

@@ -1,0 +1,14 @@
+mongo.exe   客户端程序，连接 MongoDB
+mongod.exe  服务端程序，启动 MongoDB
+mongodump.exe   备份程序
+mongoexport.exe 数据导出程序
+mongofiles.exe  GridFS工具，内建的分布式文件系统
+mongoimport.exe 数据导入程序
+mongorestore.exe    数据恢复程序
+mongos.exe  数据分片程序，支持数据的横向扩展
+mongostat.exe   监视程序
+
+mongod --auth --port 27017 -f E:\sof\mongodb-3.6.11\mongod.cnf -dbpath E:\sof\mongodb-3.6.11\data
+db.createUser({user:"admin",pwd:"123456",roles:[{role:"userAdminAnyDatabase",db:"admin"}]})
+
+db.createUser({user:"sa",pwd:"sa",roles:[{role:"root",db:"admin"}]})

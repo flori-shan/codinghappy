@@ -1,0 +1,3 @@
+rootProject.name = 'gradle02'
+include ':subgradle01'
+include ':subgradle02'

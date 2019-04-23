@@ -1,0 +1,4 @@
+git checkout --orphan doc
+git rm -rf .
+git commit -am "new branch for documentation"
+git branch -a

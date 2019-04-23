@@ -1,0 +1,19 @@
+HSSF提供读写Microsoft Excel XLS格式档案的功能。
+XSSF提供读写Microsoft Excel OOXML XLSX格式档案的功能。
+
+SXSSF   ----    very large spreadsheets have to be produced
+Only a limited number of rows are accessible at a point in time.
+Sheet.clone() is not supported.
+Formula evaluation is not supported
+
+
+==================================
+Files vs InputStreams
+When opening a workbook, either a .xls HSSFWorkbook, or a .xlsx XSSFWorkbook, the Workbook can be loaded from either a File or an InputStream. 
+Using a File object allows for lower memory consumption, while an InputStream requires more memory as it has to buffer the whole file.
+
+// Use a file
+Workbook wb = WorkbookFactory.create(new File("MyExcel.xls"));
+
+// Use an InputStream, needs more memory
+Workbook wb = WorkbookFactory.create(new FileInputStream("MyExcel.xlsx"));
