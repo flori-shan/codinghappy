@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <help_text/>
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>110</y>
+      <w>160</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;手机&gt;&gt;
+MobilePhone
+--
+
+--
++ transfer(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>100</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;人&gt;&gt;
+Person
+--
+-name: String
+
+--
++ call (MobilePhone mp): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>70</x>
+      <y>0</y>
+      <w>480</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>根据类与类之间的耦合度从弱到强排列，UML 中的类图有以下几种关系：
+依赖关系、关联关系、聚合关系、组合关系、泛化关系和实现关系。
+其中泛化和实现的耦合度相等，它们是最强的</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>140</y>
+      <w>160</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+打电话</panel_attributes>
+    <additional_attributes>140.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>70</x>
+      <y>220</y>
+      <w>550</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>依赖（Dependency）关系是一种使用关系，它是对象之间耦合度最弱的一种关联方式，
+是临时性的关联。某个类的方法通过局部变量、方法的参数或者对静态方法的
+调用来访问另一个类（被依赖类）中的某些方法来完成一些职责。
+在 UML 类图中，依赖关系使用带箭头的虚线来表示，箭头从使用类指向被依赖的类</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>370</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;学生&gt;&gt;
+Student
+--
+- name: String
+- stus: List&lt;Teacher&gt;
+--
++ study(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>370</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;老师&gt;&gt;
+Teacher
+--
+- name: String
+- stus: List&lt;Student&gt;
+--
++ teaching(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>400</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=教学者
+m2=学习者
+teaches to &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>70</x>
+      <y>510</y>
+      <w>570</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>关联关系是类与类之间最常用的一种关系，分为一般关联关系、聚合关系和组合关系
+关联可以是双向的，也可以是单向的。
+在 UML 类图中，双向的关联可以用带两个箭头或者没有箭头的实线来表示，
+单向的关联用带一个箭头的实线来表示，箭头从使用类指向被关联的类。
+也可以在关联线的两端标注角色名，代表两种不同的角色。
+代码中通常将一个类的对象作为另一个类的成员变量来实现关联关系</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>670</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;教师&gt;&gt;
+Teacher
+--
+- name: String
+--
++ teaching(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>960</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;嘴&gt;&gt;
+Mouth
+--
+--
++ eat(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>710</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>70</x>
+      <y>780</y>
+      <w>560</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>聚合（Aggregation）关系是关联关系的一种，是强关联关系，是整体和部分之间的关系，
+是 has-a 的关系。
+聚合关系也是通过成员对象来实现的，其中成员对象是整体对象的一部分，
+但是成员对象可以脱离整体对象而独立存在
+在 UML 类图中，聚合关系可以用带空心菱形的实线来表示，菱形指向整体</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>670</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;大学&gt;&gt;
+University
+--
+- teas: List&lt;Teacher&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>960</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;头&gt;&gt;
+Header
+--
+- mouth: Mouth
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>1000</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>70</x>
+      <y>1070</y>
+      <w>560</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>组合（Composition）关系也是关联关系的一种，也表示类之间的整体与部分的关系，
+但它是一种更强烈的聚合关系，是 cxmtains-a 关系
+在组合关系中，整体对象可以控制部分对象的生命周期，一旦整体对象不存在，部分对象也将不存在，
+部分对象不能脱离整体对象而存在
+在 UML 类图中，组合关系用带实心菱形的实线来表示，菱形指向整体</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>1180</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;人&gt;&gt;
+Person
+--
+- name: String
+- age: int
+--
++ speak(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>1350</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;学生&gt;&gt;
+Student
+--
+- studentNo: long
+--
++ study(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>1280</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>500</x>
+      <y>1190</y>
+      <w>100</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>车辆
+Vehicle
+--
++ move(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>1360</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;汽车&gt;&gt;
+Car
+--
+
+--
++ move(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>1270</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>340</x>
+      <y>1570</y>
+      <w>410</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>实现（Realization）关系是接口与实现类之间的关系
+在 UML 类图中，实现关系使用带空心三角箭头的虚线来表示，
+箭头从实现类指向接口</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>20</x>
+      <y>1480</y>
+      <w>410</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>泛化（Generalization）关系是对象之间耦合度最大的一种关系，
+表示一般与特殊的关系，是父类与子类之间的关系，
+是一种继承关系，是 is-a 的关系
+在 UML 类图中，泛化关系用带空心三角箭头的实线来表示，
+箭头从子类指向父类</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
