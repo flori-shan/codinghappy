@@ -2,7 +2,7 @@ package cn.nihility.mvndrill.jdbc;
 
 import cn.nihility.mvndrill.utils.LogLevelEnum;
 import cn.nihility.mvndrill.utils.LogbackUtil;
-import com.zaxxer.hikari.HikariDataSource;
+import com.alibaba.druid.pool.DruidDataSource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,23 +14,22 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Hikari Pool 连接池的测试类
- * Created by yzx on 2019/4/20.
+ * Created by yzx on 2019/4/25.
  */
-public class HikariPoolTest {
+public class DruidPoolTest {
 
-    private HikariDataSource dataSource;
+    private DruidDataSource dataSource;
     private Connection connection;
 
     @Before
     public void loadDataSource() {
         try {
-            dataSource = JDBCUtils.getHikariDataSource("oracle");
-            LogbackUtil.logger(this.getClass(), LogLevelEnum.DEBUG, "Get Hikari data source instance = {}", dataSource);
+            dataSource = JDBCUtils.getDruidDataSource("mysql");
+            LogbackUtil.logger(this.getClass(), LogLevelEnum.DEBUG, "Get Druid data source instance = {}", dataSource);
             Assert.assertNotNull(dataSource);
 
             connection = dataSource.getConnection();
-            LogbackUtil.logger(this.getClass(), LogLevelEnum.DEBUG, "Get Hikari data source connection instance = {}", connection);
+            LogbackUtil.logger(this.getClass(), LogLevelEnum.DEBUG, "Get Druid data source connection instance = {}", connection);
             Assert.assertNotNull(connection);
 
         } catch (IOException e) {
@@ -43,16 +42,16 @@ public class HikariPoolTest {
     @After
     public void releaseResources() {
         JDBCUtils.release(connection, null, null);
-        releaseHikariDataSource();
+        releaseDruidDataSource();
     }
 
-    private void releaseHikariDataSource() {
+    private void releaseDruidDataSource() {
         if (null != dataSource) { dataSource.close(); }
     }
 
     @Test
     public void testGetDataSource() {
-        LogbackUtil.logger(HikariPoolTest.class, LogLevelEnum.DEBUG, "test hikari data source and connection.");
+        LogbackUtil.logger(DruidPoolTest.class, LogLevelEnum.DEBUG, "test Druid data source and connection.");
     }
 
     @Test
@@ -61,22 +60,22 @@ public class HikariPoolTest {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String select = "SELECT id, name, age, gender, email from mybatis_test WHERE test_address like ?";
+        String select = "SELECT id, name, age, gender, email from mybatis_test WHERE email like ?";
 
         try {
             connection = dataSource.getConnection();
 
             statement = connection.prepareStatement(select);
-            statement.setString(1, "%Hikari%");
+            statement.setString(1, "%durid%");
             resultSet = statement.executeQuery();
-            LogbackUtil.loggerInfo(JDBCTest.class, "======================");
+            LogbackUtil.loggerInfo(DruidPoolTest.class, "======================");
             while (resultSet.next()) {
-                LogbackUtil.loggerInfo(JDBCTest.class, "id={}, name={}, age={}, gender={}, email={}",
+                LogbackUtil.loggerInfo(DruidPoolTest.class, "id={}, name={}, age={}, gender={}, email={}",
                         resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("age"),
                         resultSet.getString("gender"), resultSet.getString("email"));
             }
         } catch (SQLException e) {
-            LogbackUtil.loggerError(JDBCTest.class, "Execute error = {}", e);
+            LogbackUtil.loggerError(DruidPoolTest.class, "Execute error = {}", e);
         } finally {
             JDBCUtils.release(connection, statement, resultSet);
         }
@@ -88,14 +87,13 @@ public class HikariPoolTest {
         long start = System.currentTimeMillis();
         long partial = System.currentTimeMillis();
 
-        HikariDataSource hikariDataSource = null;
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Savepoint savepoint = null;
         int saveCount = 10;
 
-		String insert = "insert into mybatis_test(id, name, age, gender, email, test_address) values (MYBATISTEST_SEQUENCE.Nextval,?,?,?,?,?)";
+        String insert = "insert into mybatis_test(id, name, age, gender, email, test_address) values (MYBATISTEST_SEQUENCE.Nextval,?,?,?,?,?)";
 //        String insert = "insert into mybatis_test(name, age, gender, email, test_address) values (?,?,?,?,?)";
         try {
 //			connection = JDBCUtils.getConnection("oracle");
@@ -115,7 +113,7 @@ public class HikariPoolTest {
                 statement.setString(1, uuid);
                 statement.setInt(2, (random.nextInt(10) + 10));
                 statement.setString(3, (index % 3 == 0 ? "F" : "M"));
-                statement.setString(4, uuid+"@test.com");
+                statement.setString(4, uuid+"@durid.com");
                 statement.setString(5, uuid+"Druid");
                 statement.addBatch();
 
@@ -130,7 +128,7 @@ public class HikariPoolTest {
 
             connection.setAutoCommit(autoCommit);
         } catch (SQLException e) {
-            LogbackUtil.loggerError(JDBCTest.class, "Execute error = {}", e);
+            LogbackUtil.loggerError(DruidPoolTest.class, "Execute error = {}", e);
             try {
                 if (null != savepoint) {
                     connection.rollback(savepoint);
@@ -138,7 +136,7 @@ public class HikariPoolTest {
                     connection.rollback();
                 }
             } catch (SQLException e1) {
-                LogbackUtil.loggerError(JDBCTest.class, "Execute rollback error = {}", e1);
+                LogbackUtil.loggerError(DruidPoolTest.class, "Execute rollback error = {}", e1);
             }
         } finally {
             JDBCUtils.release(connection, statement, resultSet);

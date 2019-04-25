@@ -1,6 +1,7 @@
 package cn.nihility.mvndrill.jdbc;
 
 import cn.nihility.mvndrill.utils.LogbackUtil;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +76,33 @@ public class JDBCUtils {
 
 	}
 
+	public static DruidDataSource getDruidDataSource(String dbName) throws IOException {
+
+		String path =  JDBCUtils.class.getResource("/pool/druid.properties").getFile();
+		LOGGER.debug("HikariCP get connection config find path = {}", path);
+
+		String classLoaderPath = JDBCUtils.class.getClassLoader().getResource("pool/druid.properties").getFile();
+		LOGGER.debug("HikariCP get connection config classloader find path = {}", classLoaderPath);
+
+		FileInputStream fileInputStream = new FileInputStream(path);
+		Properties properties = new Properties();
+		properties.load(fileInputStream);
+
+		DruidDataSource druidDataSource = new DruidDataSource();
+		druidDataSource.setUsername(properties.getProperty(dbName+".user"));
+		druidDataSource.setUrl(properties.getProperty(dbName+".url"));
+		druidDataSource.setPassword(properties.getProperty(dbName+".password"));
+		druidDataSource.setDriverClassName(properties.getProperty(dbName+".driverClass"));
+
+		druidDataSource.setInitialSize(16);
+		druidDataSource.setMaxActive(16);
+		druidDataSource.setMinIdle(8);
+		druidDataSource.setMaxWait(60000);
+//		druidDataSource.setConnectionProperties(properties.getProperty("connectionProperties"));
+
+		return druidDataSource;
+	}
+
 	public static HikariDataSource getHikariDataSource(String dbName) throws IOException {
 
 		String path =  JDBCUtils.class.getResource("/pool/hikari.properties").getFile();
@@ -102,7 +130,7 @@ public class JDBCUtils {
 		hikariDataSource.setConnectionTimeout(30000);
 		hikariDataSource.setIdleTimeout(60000);
 		hikariDataSource.setMaxLifetime(1800000);
-		hikariDataSource.setMaximumPoolSize(16);
+//		hikariDataSource.setMaximumPoolSize(16);
 
 		return hikariDataSource;
 	}
