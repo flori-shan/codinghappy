@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+}
+
+group 'cn.nihility'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenLocal()
+    mavenCentral()
+}
+
+/* 不能有横线 */
+project.ext {
+    logbackVersion = '1.2.3'
+    junitVersion = '4.12'
+    rabbitmqVersion = '5.6.0'
+}
+
+dependencies {
+    /* log4j2 and log4j to slf4j */
+    compile 'org.apache.logging.log4j:log4j-core:2.11.1' /* log4j2 */
+    compile 'log4j:log4j:1.2.17' /* log4j */
+    compile 'org.slf4j:log4j-over-slf4j:1.7.25' /* log4j to slf4j */
+    compile 'org.apache.logging.log4j:log4j-to-slf4j:2.11.1' /* log4j2 to slf4j */
+    compile 'org.slf4j:jcl-over-slf4j:1.7.25' /* JCL to slf4j */
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+    compile "com.rabbitmq:amqp-client:$rabbitmqVersion"
+    testCompile group: 'junit', name: 'junit', version: "$junitVersion"
+    /*compile ('org.springframework.boot:spring-boot-starter-aop:1.5.10.RELEASE') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }*/
+}
+
+jar {
+    /* gradle jar -Pmainclass=cn.nihility.util.LogbackUtil */
+    def mainclass = project.hasProperty("mainclass") ? project.property("mainclass") : ""
+    manifestContentCharset 'utf-8'
+    metadataCharset 'utf-8'
+
+    manifest {
+        attributes 'Implementation-Title': 'Project Gradle Quickstart',
+                'Implementation-Version': version,
+                'Main-Class': "$mainclass"
+    }
+    /* 这个不可以放到 allprojects 当中，不然会出现 class 重复，应该放到每个独立的 project 当中*/
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        /*configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }*/
+    }
+    /* gradle jar -PallInOne  根据参数来决定是否将第三方依赖类打入自己的jar包
+    if (project.hasProperty("allInOne")) {from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}}
+    */
+    /* 2. 另一种把依赖放到 lib 里面
+     into('lib') { from configurations.runtime }
+    * */
+}

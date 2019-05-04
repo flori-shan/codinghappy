@@ -1,0 +1,111 @@
+plugins {
+    id 'java'
+}
+
+/* 不能有横线 */
+project.ext {
+    logbackVersion = '1.2.3'
+}
+
+allprojects {
+    group 'cn.nihility'
+    version '1.0-SNAPSHOT'
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        compile "ch.qos.logback:logback-classic:$logbackVersion"
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
+    def createDir = {
+        path ->
+            File dir = new File(path)
+            if (!dir.exists()) { dir.mkdirs() }
+    }
+
+    task makeJavaDir() {
+        def paths = ["src/main/java", "src/main/resources", "src/test/java", "src/test/resources"]
+        doFirst {
+            paths.forEach(createDir)
+        }
+    }
+
+    task makeWebDir() {
+        dependsOn 'makeJavaDir'
+        def paths = ["src/main/webapp", "src/test/webapp"]
+        doLast {
+            paths.forEach(createDir)
+        }
+    }
+
+    jar {
+        manifestContentCharset 'utf-8'
+        metadataCharset 'utf-8'
+        manifest {
+            attributes 'Implementation-Title': 'Multi Project Gradle Quickstart',
+                    'Implementation-Version': version,
+                    'Main-Class': 'cn.nihility.classloader.ClassLoaderPath'
+        }
+        /* 这个不可以放到 allprojects 当中，不然会出现 class 重复，应该放到每个独立的 project 当中
+        from {
+            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+            configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+        }*/
+        /* gradle jar -PallInOne  根据参数来决定是否将第三方依赖类打入自己的jar包
+        if (project.hasProperty("allInOne")) {
+        from {
+            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+        }
+        * */
+    }
+}
+
+subprojects {
+}
+
+// 版本冲突管理
+configurations.all {
+    resolutionStrategy {
+        failOnVersionConflict()
+//        force 'org.slf4j:slf4j-api:1.7.25'
+        force 'ch.qos.logback:logback-classic:1.2.3'
+    }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-aop:1.5.10.RELEASE'
+    /*compile ('org.springframework.boot:spring-boot-starter-aop:1.5.10.RELEASE') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }*/
+//    compile 'ch.qos.logback:logback-classic:1.2.3'
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+
+rootProject.name = 'gradle01'
+include 'model'
+include 'web'
+include 'repository'
+===============================================
+model :
+dependencies {
+    compile project(":repository")
+}
+
+repository :
+apply plugin: 'war'
+dependencies {
+    compile project(":repository")
+    compile project(":model")
+}

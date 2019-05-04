@@ -1,6 +1,10 @@
+wget https://www.rabbitmq.com/releases/erlang/erlang-18.3-1.el7.centos.x86_64.rpm
+wget http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm
+wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-3.6.5-1.suse.noarch.rpm
+
 Centos7 :
 erlang dependencies:
-yum -y install make gcc gcc-c++ kernel-devel m4 ncurses-devel openssl-devel unixODBC-devel
+yum -y install epel-release make gcc gcc-c++ kernel-devel m4 ncurses-devel openssl-devel unixODBC-devel
 
 https://bintray.com/rabbitmq-erlang/rpm/erlang/21.3.7-1
 yum localinstall erlang.rpm
@@ -21,7 +25,7 @@ loopback_users.guest = false
 rabbitmqctl add_user 用户名 密码
 # 赋予用户管理员角色
 rabbitmqctl set_user_tags 用户 administrator
-rabbitmqctl  set_permissions [-p /vhost1]  user_admin '.*' '.*' '.*'
+rabbitmqctl  set_permissions -p "/" rabbitmq '.*' '.*' '.*'
 
 
 ---------------
