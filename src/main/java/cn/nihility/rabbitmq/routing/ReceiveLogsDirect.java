@@ -8,6 +8,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -36,7 +37,7 @@ public class ReceiveLogsDirect {
         LogbackUtil.logger(ReceiveLogsDirect.class, LoggerLevelEnum.DEBUG, "[*] Waiting for messages. To exit press CTRL+C, Queue name = {}", queueName);
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), "UTF-8");
+            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
             LogbackUtil.logger(ReceiveLogsDirect.class, LoggerLevelEnum.DEBUG, "[*] Received severity [{}], message [{}]. Queue name = {}", delivery.getEnvelope().getRoutingKey(), message, queueName);
         };
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});

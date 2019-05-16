@@ -14,7 +14,7 @@ public class JedisKeys {
 
     private static JedisKeys jedisKeys;
     private JedisOpUtils jedisOpUtils;
-    private JedisKeys() { if (null == jedisOpUtils) { jedisOpUtils = JedisOpUtils.getInstance(); }}
+    private JedisKeys() { jedisOpUtils = JedisOpUtils.getInstance(); }
 
     public static JedisKeys getInstance() {
         if (null == jedisKeys) {
