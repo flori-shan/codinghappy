@@ -5,6 +5,9 @@ plugins {
 group 'cn.nihility'
 version '1.0-SNAPSHOT'
 
+apply plugin: 'idea'
+apply plugin: 'java'
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -21,6 +24,10 @@ project.ext {
     rabbitmqVersion = '5.6.0'
 }
 
+/* Gradle 指定编码 */
+tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
+/* 或者 -Dfile.encoding=UTF-8 */
+
 dependencies {
     /* log4j2 and log4j to slf4j */
     compile 'org.apache.logging.log4j:log4j-core:2.11.1' /* log4j2 */
@@ -34,6 +41,13 @@ dependencies {
     /*compile ('org.springframework.boot:spring-boot-starter-aop:1.5.10.RELEASE') {
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }*/
+}
+
+idea {
+    module {
+        downloadJavadoc = true  // defaults to false
+        downloadSources = true
+    }
 }
 
 jar {
@@ -52,6 +66,10 @@ jar {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
         /*configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }*/
     }
+    /* 排除无需文件 */
+    exclude 'META-INF/NOTICE*', 'META-INF/DEPENDENCIES', 'META-INF/LICENSE*', '*.dtd', '*.xsd', '*.properties', '*.xml'
+    exclude('META-INF/maven/', 'META-INF/org/', 'META-INF/services/', 'META-INF/versions/')
+
     /* gradle jar -PallInOne  根据参数来决定是否将第三方依赖类打入自己的jar包
     if (project.hasProperty("allInOne")) {from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}}
     */
