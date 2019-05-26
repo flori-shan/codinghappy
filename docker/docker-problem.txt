@@ -26,3 +26,11 @@ systemctl restart docker.service
 
 docker是1.12或以上的版本 ->  /etc/docker/daemon.json
 {"registry-mirrors":"https://registry.docker-cn.com","graph":"/data/docker/imagedata"}
+
+
+======================================================
+centos7 : WARNING: bridge-nf-call-iptables is disabled
+vim /etc/sysctl.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-arptables = 1
