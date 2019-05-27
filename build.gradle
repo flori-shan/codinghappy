@@ -41,6 +41,7 @@ dependencies {
 //    compile group: 'org.apache.activemq', name: 'activemq-all', version: '5.15.8'
     compile group: 'org.apache.activemq', name: 'activemq-broker', version: '5.15.8'
     compile group: 'org.apache.activemq', name: 'activemq-client', version: '5.15.8'
+    compile group: 'org.apache.poi', name: 'poi', version: '3.17' /* 3.17 4.0.1 */
 
     testCompile group: 'junit', name: 'junit', version: "$junitVersion"
     annotationProcessor 'org.apache.logging.log4j:log4j-core:2.11.1'
