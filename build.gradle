@@ -1,0 +1,147 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'war'
+    id 'org.gretty' version '2.2.0'
+}
+
+group 'cn.nihility'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+}
+
+/* 不能有横线 */
+project.ext {
+    rabbitmqVersion = '5.6.0'
+    jedisVersion = '3.0.1'
+    springVersion = '4.3.24.RELEASE'
+    mysqlVersion = '8.0.13'
+    HikariCPVersion = '3.3.1'
+    c3p0Version = '0.9.1.2'
+    druidVersion = '1.1.12'
+    mybatisVersion = '3.4.6'
+}
+
+idea {
+    module {
+        downloadJavadoc = true  /* defaults to false */
+        downloadSources = true
+    }
+}
+
+/* gretty 配置 https://akhikhl.github.io/gretty-doc/Gretty-configuration.html */
+gretty {
+    /* Servlet container to be used in appXXX tasks.
+    Possible values are 'jetty7', 'jetty8', 'jetty9', 'jetty93' (jdk 8 only), 'jetty94' (jdk 8 only),
+    'tomcat7', 'tomcat8'. */
+    servletContainer = 'jetty9' /* Use Jetty7 which is compatible with JDK6 */
+    managedClassReload = true /* Activate spring-loaded class reloading */
+    scanInterval = 1  /* Scan for changes every second */
+    integrationTestTask = 'integrationTest'
+    /*httpPort = 8081*/
+    /*host = "127.0.0.1"*/ /* Enable network access from outside your local machine '0.0.0.0' */
+}
+
+/* Gradle 指定编码 */
+tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
+/* 或者 -Dfile.encoding=UTF-8 */
+
+dependencies {
+    /* web */
+    /* provided[不可用] providedCompile 'javax.servlet:javax.servlet-api:3.1.0'*/
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+
+    compile 'org.slf4j:jcl-over-slf4j:1.7.25' /* JCL to slf4j */
+    compile "ch.qos.logback:logback-classic:1.2.3"
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.27.0'
+    /* Functional Test */
+    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
+    testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.3.0' /* Automatically installs browser drivers */
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59' /* Uses Selenium for functional tests */
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: '3.141.59'
+
+    /* Spring  exclude : commons-logging:commons-logging:1.2 */
+    compile "org.springframework:spring-core:$springVersion"
+    compile "org.springframework:spring-beans:$springVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-context-support:$springVersion"
+    compile "org.springframework:spring-aspects:$springVersion"
+    compile "org.springframework:spring-instrument:$springVersion"
+    compile "org.springframework:spring-messaging:$springVersion"
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile "org.springframework:spring-orm:$springVersion"
+    compile "org.springframework:spring-oxm:$springVersion"
+    compile "org.springframework:spring-test:$springVersion"
+    compile "org.springframework:spring-web:$springVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-websocket:$springVersion"
+
+    /* mysql */
+    compile "mysql:mysql-connector-java:$mysqlVersion"
+    /* database pool */
+    compile "com.zaxxer:HikariCP:$HikariCPVersion"
+    compile "c3p0:c3p0:$c3p0Version"
+    compile "com.alibaba:druid:$druidVersion"
+
+    /* mybatis */
+    compile "org.mybatis:mybatis:$mybatisVersion"
+    compile group: 'org.ehcache', name: 'ehcache', version: '3.7.0'
+
+    compile group: 'redis.clients', name: 'jedis', version: '3.0.1'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.54'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+    compile group: 'org.json', name: 'json', version: '20180813'
+
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+
+    /*compile ('org.springframework.boot:spring-boot-starter-aop:1.5.10.RELEASE') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }*/
+    /* 依赖 */
+    /*方式1： 依赖一个名字为 "common" 的 project
+    compile project(":common")
+    方式2： 依赖一个本地 jar 包 依赖当前 module/libs/aliyun-vod-croe-android-sdk-1.0.0.jar
+    compile files('libs/aliyun-vod-croe-android-sdk-1.0.0.jar')
+    方式2 扩展：通过 fileTree 指定 dir 依赖所有的 jar 包
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    方式3： 依赖一个远程仓库的包
+    compile 'com.android.support:appcompat-v7:26.1.0'*/
+}
+
+jar {
+    /* gradle jar -Pmainclass=cn.nihility.util.LogbackUtil */
+    def mainclass = project.hasProperty("mainclass") ? project.property("mainclass") : ""
+    // def gitversion = 'git rev-parse --short HEAD'.execute().text.trim()
+    manifestContentCharset 'UTF-8'
+    metadataCharset 'UTF-8'
+
+    manifest {
+        attributes 'Implementation-Title': 'Project Gradle Quickstart',
+                'Implementation-Version': version,
+                'Main-Class': "$mainclass"
+    }
+
+    /* 这个不可以放到 allprojects 当中，不然会出现 class 重复，应该放到每个独立的 project 当中*/
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        /*configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }*/
+    }
+
+    exclude 'META-INF/NOTICE*', 'META-INF/DEPENDENCIES', 'META-INF/LICENSE*', '*.dtd', '*.xsd', '*.properties', '*.xml'
+    exclude('META-INF/maven/', 'META-INF/org/', 'META-INF/services/', 'META-INF/versions/')
+
+    /* 1. gradle jar -PallInOne  根据参数来决定是否将第三方依赖类打入自己的jar包
+     if (project.hasProperty("allInOne")) {from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}}
+      2. 另一种把依赖放到 lib 里面
+     into('lib') { from configurations.runtime } */
+}
