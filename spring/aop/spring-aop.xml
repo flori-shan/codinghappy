@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
-	
-	<!-- 配置自动扫描的包 -->
-	<context:component-scan base-package="cn.nihility.springweb.demo.aop"></context:component-scan>
-	
-	<!-- AOP XML 配置 -->	
-	<!-- AOP 自动为切面方法中匹配的方法所在的类生成代理对象 -->
-	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-	
-	<!-- 1. 配置Bean -->
-	<bean id="doAOPArithmetic" class="cn.nihility.springweb.demo.aop.impl.AOPArithmeticImpl"></bean>
-	<!-- 2. 配置切面Bean -->
-	<bean id="doAOPService" class="cn.nihility.springweb.demo.aop.impl.AOPServiceImpl"></bean>
-	<bean id="loggingTime" class="cn.nihility.springweb.demo.aop.LoggingTime"></bean>
-	<!-- 3. 配置AOP -->
-	<aop:config>
-		<!-- 3.1 配置切入点表达式 -->
-		<aop:pointcut expression="execution(* cn.nihility.springweb.demo.aop.impl.AOPArithmeticImpl.*(..))" id="doServicePointCut"/>
-		<!-- 3.2 配置切面及通知，使用order指定等级 -->
-		<aop:aspect id="doServiceAspect" order="1" ref="doAOPService">
-			<!-- 前置通知 -->
-			<aop:before method="doBefore" pointcut-ref="doServicePointCut"/>
-			<!-- 后置通知 -->
-			<aop:after method="doAfter" pointcut-ref="doServicePointCut"/>
-			<!-- 返回通知 注意：  returning="result"-->
-			<aop:after-returning method="doAfterReturning" returning="result" pointcut-ref="doServicePointCut"/>
-			<!-- 环绕通知 -->
-			<aop:around method="doAround" pointcut-ref="doServicePointCut"/>
-			<!-- 异常通知  注意  throwing="ex" -->
-			<aop:after-throwing method="doAfterThrowing" throwing="ex" pointcut-ref="doServicePointCut"/>
-		</aop:aspect>
-		<aop:aspect id="loggingTimeAspect" order="2" ref="loggingTime">
-			<aop:before method="doBefore" pointcut-ref="doServicePointCut"/>
-			<aop:after method="doAfter" pointcut-ref="doServicePointCut"/>
-		</aop:aspect>
-	</aop:config>
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- AOP Annotation 配置 -->
+    <!-- 自动扫描包 -->
+    <context:component-scan base-package="cn.nihility.spring.aop" />
+    <!-- AOP 自动为切面方法中匹配的方法所在类生成代理对象 -->
+    <!-- proxy-target-class="true" 使用CGLib动态代理技术注入增强，默认 jdk 动态代理  -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <!-- AOP XML 配置 -->
+    <!-- Bean 注入 -->
+    <bean id="compute" class="cn.nihility.spring.aop.Compute"></bean>
+    <bean id="aspectXmlLogger" class="cn.nihility.spring.aop.AspectXMLLogger"></bean>
+
+    <aop:config>
+        <!-- 1. 配置切入点表达式 -->
+        <aop:pointcut id="computePointCut" expression="execution(* cn.nihility.spring.aop.Compute.*(..))"/>
+        <!-- 2. 配置切面通知 -->
+        <aop:aspect id="doComputeAspect" order="1" ref="aspectXmlLogger">
+            <!-- 前置通知 -->
+            <aop:before method="doBefore" pointcut-ref="computePointCut"/>
+            <!-- 后置通知 -->
+            <aop:after method="doAfter" pointcut-ref="computePointCut"/>
+            <!-- 返回通知,注意 returning -->
+            <aop:after-returning method="doAfterReturning" pointcut-ref="computePointCut" returning="result" />
+            <!-- 异常通知 -->
+            <aop:after-throwing method="doAfterThrowing" pointcut-ref="computePointCut" throwing="ex"/>
+            <!-- 环绕通知 -->
+            <aop:around method="doAround" pointcut-ref="computePointCut" />
+        </aop:aspect>
+    </aop:config>
 
 </beans>

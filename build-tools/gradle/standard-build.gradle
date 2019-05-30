@@ -41,6 +41,15 @@ dependencies {
     /*compile ('org.springframework.boot:spring-boot-starter-aop:1.5.10.RELEASE') {
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }*/
+    /* 依赖 */
+    /*方式1： 依赖一个名字为 "common" 的 project
+    compile project(":common")
+    方式2： 依赖一个本地 jar 包 依赖当前 module/libs/aliyun-vod-croe-android-sdk-1.0.0.jar
+    compile files('libs/aliyun-vod-croe-android-sdk-1.0.0.jar')
+    方式2 扩展：通过 fileTree 指定 dir 依赖所有的 jar 包
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    方式3： 依赖一个远程仓库的包
+    compile 'com.android.support:appcompat-v7:26.1.0'*/
 }
 
 idea {

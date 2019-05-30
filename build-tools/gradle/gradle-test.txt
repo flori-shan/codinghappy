@@ -1,0 +1,44 @@
+自动化测试的完整流程:
+compile java -> process Resources -> .classes -> jar [源代码的编译到执行]
+-> compileTestJava -> ProcessTestResources -> testClasses [测试代码的编译到执行]
+-> test -> check -> build
+
+Gradle 测试代码评判规则
+类或超类继承自 junit.framework.TestCase 的类
+类或超类继承自 groovy.util.GroovyTestCase 的类
+类或超类使用了 @RunWith 进行注解
+类或超类含有一个带 @Test 注解的方法
+
+注意: Gradle 只有在测试代码新建或修改后执行 build 才会执行测试代码.
+
+============================================
+多模块项目
+gradle :b-module:tasks     -> 看到b模块可用的任务
+gradle :b-module:test      -> 测试 在该模块中运行单元测试
+gradle :b-module:test --tests "com.xyz.b.module.TestClass.testToRun"
+
+============================================
+示例： gradle test --tests cn.nihility.servlet.HelloServletTest
+
+gradle test --tests org.gradle.SomeTest.someSpecificFeature
+gradle test --tests *SomeTest.someSpecificFeature
+gradle test --tests *SomeSpecificTest
+gradle test --tests all.in.specific.package*
+gradle test --tests *IntegTest
+gradle test --tests *IntegTest*ui*
+gradle test --tests *IntegTest.singleMethod
+gradle someTestTask --tests *UiTest someOtherTestTask --tests *WebTest*ui
+
+它支持选择测试
+test {
+    filter{
+        //包含任意测试类中方法名包含 test 的方法
+        includeTestsMatching "*test*"
+        //包含指定包下的测试类
+        includeTestsMatching "cn.wolfcode.test.*"
+        //包括所有的集成测试
+        includeTestsMatching "*IntegTest"
+        // 排除指定的测试类/方法/包  Gradle 5.0 开始支持
+        //excludeTestsMatching "*test"
+    }
+}
