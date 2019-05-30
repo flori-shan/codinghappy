@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-aop-annotation.xml"})
-public class AOPTestAnnotation {
+public class AOPAnnotationTest {
 
     @Autowired
     private Compute compute;
@@ -25,7 +25,7 @@ public class AOPTestAnnotation {
         Assert.assertEquals(add, 3);
     }
 
-    @Test
+    @Test(expected = ArithmeticException.class)
     public void testExceptionAop() {
         Integer division = compute.division(1, 0);
         System.out.println("division " + division);

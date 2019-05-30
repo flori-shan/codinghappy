@@ -1,6 +1,5 @@
 package cn.nihility.spring.aop;
 
-import cn.nihility.spring.aop.Compute;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-aop.xml"})
-public class AOPTestXML {
+public class AOPXmlTest {
 
     @Autowired
     private Compute compute;
@@ -27,7 +26,7 @@ public class AOPTestXML {
         Assert.assertEquals(add, 3);
     }
 
-    @Test
+    @Test(expected = ArithmeticException.class)
     public void testExceptionAop() {
         Integer division = compute.division(1, 0);
         System.out.println("division " + division);

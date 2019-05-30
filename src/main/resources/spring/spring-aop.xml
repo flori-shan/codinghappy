@@ -7,20 +7,15 @@
             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 自动扫描包 -->
-    <context:component-scan base-package="cn.nihility.spring.aop" />
-    <!-- AOP 自动为切面方法中匹配的方法所在类生成代理对象 -->
-    <!-- proxy-target-class="true" 使用CGLib动态代理技术注入增强，默认 jdk 动态代理  -->
-    <aop:aspectj-autoproxy />
-
+    <!-- Bean 注入 -->
     <bean id="compute" class="cn.nihility.spring.aop.Compute"></bean>
-    <bean id="aspectLogger" class="cn.nihility.spring.aop.AspectLoggerTime"></bean>
+    <bean id="aspectXmlLogger" class="cn.nihility.spring.aop.AspectXMLLogger"></bean>
 
     <aop:config>
         <!-- 1. 配置切入点表达式 -->
         <aop:pointcut id="computePointCut" expression="execution(* cn.nihility.spring.aop.Compute.*(..))"/>
         <!-- 2. 配置切面通知 -->
-        <aop:aspect id="doComputeAspect" order="1" ref="aspectLogger">
+        <aop:aspect id="doComputeAspect" order="1" ref="aspectXmlLogger">
             <!-- 前置通知 -->
             <aop:before method="doBefore" pointcut-ref="computePointCut"/>
             <!-- 后置通知 -->
