@@ -2,6 +2,7 @@ package cn.nihility.spring.tx.service;
 
 import cn.nihility.spring.tx.dao.TransferDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransferServiceAnnotationLoggerImpl implements TransferWithLoggerService {
 
     @Autowired
+    @Qualifier("transferDaoAnnotationImpl")
     private TransferDao transferDao;
     @Autowired
     private TransferLoggerService transferLoggerService;

@@ -20,7 +20,7 @@ public class TransactionRollbackTest {
     @Autowired
     private TransferServiceRollback transferService;
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void testSuccessTransferNew() {
         Assert.assertTrue(transferService.transfer("小红", "小梅", 100, false));
     }

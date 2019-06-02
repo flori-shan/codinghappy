@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.nihility.spring.mybatis.dao.FlowerDao">
+
+    <select id="getFlowers" resultType="Flower">
+        SELECT ID, FLOWER_NAME, FLOWER_STAR, FLOWER_LIFE FROM FLOWER
+    </select>
+
+    <select id="getFlowersByStar" resultType="Flower" parameterType="int">
+        SELECT ID, FLOWER_NAME, FLOWER_STAR, FLOWER_LIFE FROM FLOWER WHERE FLOWER_STAR = #{_parameter}
+    </select>
+
+    <select id="getFlowerById" resultType="Flower" parameterType="int">
+        SELECT ID, FLOWER_NAME, FLOWER_STAR, FLOWER_LIFE FROM FLOWER WHERE ID = #{_parameter}
+    </select>
+
+    <!-- Mysql 支持自增主键， 可以通过 statement.getGenerateKeys() 获取，
+        KerProperty 指获取的主键放入的对象属性名称 -->
+    <insert id="insertFlowerByObject" parameterType="Flower" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO FLOWER(flower_name,flower_star,flower_life)
+        VALUES (#{flowerName}, #{flowerStar}, #{flowerLife}) /* 在配置文件当中显示的指定 null 是如何处理的 */
+    </insert>
+
+    <delete id="deleteFlowerById" parameterType="int">
+        DELETE FROM FLOWER WHERE id = #{id}
+    </delete>
+
+    <update id="updateFlowerByObject" parameterType="Flower">
+        UPDATE FLOWER
+        <set>
+            <if test="flowerName != null &amp;&amp; flowerName.trim() !=  &quot;&quot;">flowr_name = #{flowerName},</if>
+            <if test="flowerStar != null &amp;&amp; flowerStar != 0">flower_star = #{flowerStar},</if>
+            <if test="flowerLife != null &amp;&amp; flowerLife != 0">flower_life = #{flowerLife},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

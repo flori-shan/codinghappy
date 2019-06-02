@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.nihility.spring.mybatis.dao.BankDao">
+
+    <update id="transferIn">
+        UPDATE BANK SET AMT = AMT + #{param2}, DEAL_DATE = NOW() WHERE NAME = #{param1}
+    </update>
+
+    <update id="transferOut">
+        UPDATE BANK SET AMT = AMT - #{param2}, DEAL_DATE = NOW() WHERE NAME = #{param1}
+    </update>
+
+</mapper>

@@ -1,16 +1,28 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yzx
-  Date: 2019/5/29
-  Time: 10:31
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+  String path = request.getContextPath();
+  String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+  request.setCharacterEncoding("UTF-8");
+  response.setCharacterEncoding("UTF-8");
+%>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <title>Index Page</title>
+  <link rel="stylesheet" href="<%=path%>/css/index.css">
+</head>
+<body>
+path = <%=path%><br />
+basePath = <%=basePath%>
+<hr/>
+Welcome Page.<br />
+
+<hr />
+<img src="<%=path%>/image/index.jpg" alt="index page image" /> <br />
+
+<a href="<%=path%>/html/index.html">index test html</a>
+
+<script src="<%=path%>/js/index.js"></script>
+</body>
 </html>

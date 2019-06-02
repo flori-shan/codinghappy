@@ -57,6 +57,7 @@ dependencies {
     /* web */
     /* provided[不可用] providedCompile 'javax.servlet:javax.servlet-api:3.1.0'*/
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    runtime group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
 
     compile 'org.slf4j:jcl-over-slf4j:1.7.25' /* JCL to slf4j */
     compile "ch.qos.logback:logback-classic:1.2.3"
@@ -68,6 +69,7 @@ dependencies {
     testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.3.0' /* Automatically installs browser drivers */
     testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59' /* Uses Selenium for functional tests */
     testCompile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: '3.141.59'
+    testCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
 
     /* Spring  exclude : commons-logging:commons-logging:1.2 */
     compile "org.springframework:spring-core:$springVersion"
@@ -79,22 +81,22 @@ dependencies {
     compile "org.springframework:spring-messaging:$springVersion"
     compile "org.springframework:spring-jdbc:$springVersion"
     compile "org.springframework:spring-orm:$springVersion"
-    compile "org.springframework:spring-oxm:$springVersion"
     compile "org.springframework:spring-test:$springVersion"
     compile "org.springframework:spring-web:$springVersion"
     compile "org.springframework:spring-webmvc:$springVersion"
     compile "org.springframework:spring-websocket:$springVersion"
 
     /* mysql */
-    compile "mysql:mysql-connector-java:$mysqlVersion"
+    compile "mysql:mysql-connector-java:5.1.38"
     /* database pool */
-    compile "com.zaxxer:HikariCP:$HikariCPVersion"
-    compile "c3p0:c3p0:$c3p0Version"
-    compile "com.alibaba:druid:$druidVersion"
+    compile "com.zaxxer:HikariCP:3.3.1"
+    compile "c3p0:c3p0:0.9.1.2"
+    compile "com.alibaba:druid:1.1.12"
     compile 'org.apache.commons:commons-dbcp2:2.6.0'
 
     /* mybatis */
     compile "org.mybatis:mybatis:$mybatisVersion"
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.3.2'
     compile group: 'org.ehcache', name: 'ehcache', version: '3.7.0'
 
     compile group: 'redis.clients', name: 'jedis', version: '3.0.1'
@@ -104,6 +106,9 @@ dependencies {
     compile group: 'org.json', name: 'json', version: '20180813'
 
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.3'
+
 
     /*compile ('org.springframework.boot:spring-boot-starter-aop:1.5.10.RELEASE') {
         exclude group: 'org.slf4j', module: 'slf4j-api'
@@ -145,9 +150,4 @@ jar {
      if (project.hasProperty("allInOne")) {from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}}
       2. 另一种把依赖放到 lib 里面
      into('lib') { from configurations.runtime } */
-}
-
-task cg (type : Copy) {
-    from 'build/libs'
-    into 'D:/libs/spring-web'
 }

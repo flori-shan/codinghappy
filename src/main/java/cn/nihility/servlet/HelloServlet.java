@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author muscari
  * @date 2019-05-29 10:42
  */
-@WebServlet(name = "HelloServlet", urlPatterns = {"servlet"}, loadOnStartup = 1)
+@WebServlet(name = "HelloServlet", urlPatterns = {"/servlet"}, loadOnStartup = 1)
 public class HelloServlet extends HttpServlet {
 
     @Override

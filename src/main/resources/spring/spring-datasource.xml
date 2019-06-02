@@ -2,11 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- 加载数据库配置文件 -->
     <context:property-placeholder location="classpath:properties/datasource.properties" file-encoding="UTF-8" />
+    <!-- 编程式即采用注解的方式,事务扫描开始 (开启注解 @Transactional )
+        proxy-target-class="false" 基于 JDK 动态代理 ，可以将 @Transactional 放置在接口（抽象类或抽象方法）和具体类（实现类或实现方法）上。
+        proxy-target-class="true" 基于 CGLIB 类代理，只能将 @Transactional 放置在具体类（实现类或实现方法）上。
+        default = "false"
+
+        <tx:annotation-driven/>：支持事务注解的（@Transactional）
+        <mvc:annotation-driven/>：支持MVC注解
+    -->
+    <tx:annotation-driven transaction-manager="hikariDataSourceTransactionManager"/>
 
     <!-- Hikari -->
     <bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">

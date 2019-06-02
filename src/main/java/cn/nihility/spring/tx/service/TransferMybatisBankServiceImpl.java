@@ -9,25 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author muscari
- * @date 2019-05-31 15:28
+ * @date 2019-06-01 13:38
  */
 @Service
-public class TransferServiceRollback {
+public class TransferMybatisBankServiceImpl implements TransferService {
 
     @Autowired
-    @Qualifier("transferDaoAnnotationImpl")
+    @Qualifier("transferMybatisBankDaoImpl")
     private TransferDao transferDao;
 
-    @Transactional(transactionManager = "hikariDataSourceTransactionManager", propagation = Propagation.REQUIRED/*, rollbackFor = {ArithmeticException.class}*/)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "hikariDataSourceTransactionManager",
+            rollbackFor = {ArithmeticException.class})
+    @Override
     public boolean transfer(String outName, String inName, int transferAmt, boolean haveError) {
         boolean out = transferDao.transferOut(outName, transferAmt);
+
         if (haveError) { System.out.println(1 / 0); }
-        try {
-            throw new RuntimeException();
-        } catch (ArithmeticException ex) {
-            System.out.println("Exception " + ex.getMessage());
-            ex.printStackTrace();
-        }
+
         boolean in = transferDao.transferIn(inName, transferAmt);
         return out && in;
     }
