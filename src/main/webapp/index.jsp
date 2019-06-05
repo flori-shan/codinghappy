@@ -19,9 +19,15 @@ basePath = <%=basePath%>
 Welcome Page.<br />
 
 <hr />
-<img src="<%=path%>/image/index.jpg" alt="index page image" /> <br />
+<img src="<%=path%>/image/index.jpg" alt="index page image" width="300px" height="300px" /> <br />
 
 <a href="<%=path%>/html/index.html">index test html</a>
+
+<hr />
+<a href="<%=path%>/inner/model">Controller 向 JSP 传输数据</a>
+
+<hr />
+<a href="data-bind.jsp">Spring MVC 数据封装</a>
 
 <script src="<%=path%>/js/index.js"></script>
 </body>

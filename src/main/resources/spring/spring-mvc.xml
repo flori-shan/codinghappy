@@ -11,7 +11,14 @@
     <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
 
     <!-- 添加注解驱动 -->
-    <mvc:annotation-driven></mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="selfConversionService"></mvc:annotation-driven>
+
+    <!-- 自定义类型映射转换 -->
+    <bean id="selfConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <bean class="cn.nihility.spring.mvc.convert.DateConverter"></bean>
+        </property>
+    </bean>
 
     <!-- 处理静态资源 -->
     <mvc:default-servlet-handler></mvc:default-servlet-handler>
