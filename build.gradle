@@ -1,0 +1,44 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
+    id 'java'
+    id 'idea'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'cn.nihility'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenLocal()
+    mavenCentral()
+}
+
+idea {
+    module {
+        downloadJavadoc = true  /* defaults to false */
+        downloadSources = true
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    /* 在类上 @ConfigurationProperties(prefix = "bean.properties")
+    *  @EnableConfigurationProperties({类.class})，
+    * */
+    implementation 'org.springframework.boot:spring-boot-configuration-processor' /* 绑定注入的属性 */
+
+    implementation 'org.springframework.boot:spring-boot-devtools' /* 配置热加载 */
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

@@ -1,0 +1,13 @@
+bean:
+  no: ${random.uuid}
+  name: 小梅
+
+# 复杂类型
+entity:
+  # String 等价于 properties 中 entity.simpleTypeProp = value
+  simpleTypeProp: 简单类型
+  # 数组
+  arrayTypeProp: 元素1,元素2,元素3,元素4
+  # 集合类型 List
+  listTypeProp:
+    -https://blog.csdn.net/qq360694660/article/details/78722733
