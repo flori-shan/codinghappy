@@ -3,7 +3,7 @@
 
     <timestamp key="byHour" datePattern="yyyyMMddHH"/>
     <timestamp key="byDay" datePattern="yyyy-MM-dd"/>
-    <property name="log_dir" value="E:\logger" />
+    <property name="log_dir" value="/home/muscari/Documents/tmp-dir" />
 
     <!-- 普通的日志窗口输出 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

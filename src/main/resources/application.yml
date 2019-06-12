@@ -1,6 +1,13 @@
-bean:
-  no: ${random.uuid}
+# 依赖注入
+self:
+  value: ${random.uuid}
   name: 小梅
+special:
+  value: 校长
+  bean:
+    info: 直写值
+    name: 自定义名称
+    value: ${random.uuid}
 
 # 复杂类型
 entity:
@@ -10,4 +17,21 @@ entity:
   arrayTypeProp: 元素1,元素2,元素3,元素4
   # 集合类型 List
   listTypeProp:
-    -https://blog.csdn.net/qq360694660/article/details/78722733
+    - List1
+    - List2
+    - List3
+  # 集合类型 map
+  mapTypeProp:
+    key1: value1
+    key2: value2
+    key3: value3
+  # 复杂类型: List<Map>
+  listMapProp:
+    - id: ListMap01
+      name: ListMap名称
+    - age: 18
+      address: 未知地址
+    # 变量引用
+    - params: "${entity.simpleTypeProp},${special.bean.value}"
+  # JSON 类型
+  jsonProp: {id: 12, name: json名称, age: ~}

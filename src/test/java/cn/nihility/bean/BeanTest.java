@@ -19,10 +19,19 @@ public class BeanTest {
     @Autowired
     private AnnotationBean annotationBean;
 
+    @Autowired
+    private ComplexInjectBean complexInjectBean;
+
     @Test
     public void testAnnotationBean() {
         Assert.assertEquals("Hello Spring Boot : Annotation Bean Name", annotationBean.showName("Hello Spring Boot"));
         System.out.println(annotationBean);
+    }
+
+    @Test
+    public void testComplexInjection() {
+        Assert.assertNotNull(complexInjectBean);
+        System.out.println(complexInjectBean);
     }
 
 }

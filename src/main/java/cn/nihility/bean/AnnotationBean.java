@@ -1,6 +1,6 @@
 package cn.nihility.bean;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,14 +11,16 @@ import org.springframework.stereotype.Component;
  * @date 2019-06-12 14:05
  */
 @Component
-@ConfigurationProperties(prefix = "bean")
+//@ConfigurationProperties(prefix = "bean")
 public class AnnotationBean {
 
     private String type = "Annotation Bean Name";
-    /*@Value("${bean.no}")*/
-    private String no;
-    /*@Value("${bean.name}")*/
+    @Value("${self.value}")
+    private String value;
+    @Value("${special.bean.name}")
     private String name;
+    @Value("${special.bean.info}")
+    private String info;
 
     public String getType() {
         return type;
@@ -28,12 +30,12 @@ public class AnnotationBean {
         this.type = type;
     }
 
-    public String getNo() {
-        return no;
+    public String getValue() {
+        return value;
     }
 
-    public void setNo(String no) {
-        this.no = no;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getName() {
@@ -48,12 +50,21 @@ public class AnnotationBean {
         return name + " : " + type;
     }
 
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     @Override
     public String toString() {
         return "AnnotationBean{" +
                 "type='" + type + '\'' +
-                ", no='" + no + '\'' +
+                ", no='" + value + '\'' +
                 ", name='" + name + '\'' +
+                ", info='" + info + '\'' +
                 '}';
     }
 }
