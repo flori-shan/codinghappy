@@ -1,0 +1,24 @@
+Gradle 3.0 以后，区别和使用 implementation 和 api
+implementation 和 api 是取代之前的 compile 的，其中 api 和 compile 是一样的效果，
+implementation 有所不同，通过 implementation 依赖的库只能自己库本身访问
+举个例子，A 依赖 B，B 依赖 C，如果 B 依赖 C 是使用的 implementation 依赖，
+那么在 A 中是访问不到 C 中的方法的，如果需要访问，请使用 api 依赖
+
+compile only 和 provided 效果是一样的，只在编译的时候有效，不参与打包
+runtimeOnly 和 apk 效果一样，只在打包的时候有效，编译不参与
+testImplementation 和 testCompile 效果一样，在单元测试和打包测试 apk 的时候有效
+debugImplementation 和 debugCompile 效果相同， 在 debug 模式下有效
+releaseImplementation 和 releaseCompile 效果相同，只在 release 模式和打包 release 包情况下有效
+
+=======================================
+3.0 以下版本依赖在 gradle 中的声明写法
+compile fileTree(dir: 'libs', include: ['*.jar'])
+
+但在 3.0 后的写法为
+implementation fileTree(dir: 'libs', include: ['*.jar']) 或
+api fileTree(dir: 'libs', include: ['*.jar'])
+
+注意：
+api 指令完全等同于 compile 指令，没区别，你将所有的 compile 改成 api，完全没有错。
+implement 指令，这个指令的特点就是，对于使用了该命令编译的依赖，
+对该项目有依赖的项目将无法访问到使用该命令编译的依赖中的任何程序，也就是将该依赖隐藏在内部，而不对外部公开。 
