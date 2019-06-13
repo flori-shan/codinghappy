@@ -14,6 +14,7 @@ import java.util.Map;
  */
 @Component
 /* @PropertySource() 指定加载配置文件,但是仅仅支持 properties 配置文件 */
+/* 加上依赖 spring-boot-configuration-processor */
 @ConfigurationProperties(prefix = "entity")
 public class ComplexInjectBean {
 

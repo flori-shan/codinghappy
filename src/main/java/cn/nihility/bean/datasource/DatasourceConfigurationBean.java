@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -26,6 +27,7 @@ public class DatasourceConfigurationBean {
 
     @Bean(name = "hikariDataSource", destroyMethod = "close")
     @Autowired
+    @Primary
     public HikariDataSource hikariDataSource(SelfHikariConfig config) {
         HikariDataSource hikariDataSource = new HikariDataSource();
 
@@ -45,6 +47,7 @@ public class DatasourceConfigurationBean {
     @Bean(name = "hikariJdbcTemplate")
     @Autowired
     @Qualifier("hikariDataSource")
+    @Primary
     public JdbcTemplate hikariJdbcTemplate(HikariDataSource hikariDataSource) {
         return new JdbcTemplate(hikariDataSource);
     }
@@ -52,6 +55,7 @@ public class DatasourceConfigurationBean {
     @Bean(name = "hikariDataSourceTransactionManager")
     @Autowired
     @Qualifier("hikariDataSource")
+    @Primary
     public DataSourceTransactionManager hikariDataSourceTransactionManager(HikariDataSource hikariDataSource) {
         return new DataSourceTransactionManager(hikariDataSource);
     }
@@ -59,6 +63,7 @@ public class DatasourceConfigurationBean {
     @Bean(name = "hikariTransactionTemplate")
     @Autowired
     @Qualifier("hikariDataSourceTransactionManager")
+    @Primary
     public TransactionTemplate hikariTransactionTemplate(DataSourceTransactionManager hikariDataSourceTransactionManager) {
         return new TransactionTemplate(hikariDataSourceTransactionManager);
     }
