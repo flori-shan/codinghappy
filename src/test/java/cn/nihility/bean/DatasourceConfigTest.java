@@ -29,7 +29,7 @@ import java.sql.SQLException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DatasourceConfigTest {
-
+    /* ====================================== Hikari ====================================== */
     @Autowired
     @Qualifier("hikariDataSource")
     private HikariDataSource hikariDataSource;
@@ -43,6 +43,11 @@ public class DatasourceConfigTest {
     @Qualifier("hikariTransactionTemplate")
     private TransactionTemplate hikariTransactionTemplate;
 
+    @Autowired
+    @Qualifier("hikariDataSource02")
+    private HikariDataSource hikariDataSource02;
+
+    /* ====================================== Combo ====================================== */
     @Resource(name = "comboPooledDataSource")
     private ComboPooledDataSource comboPooledDataSource;
     @Resource
@@ -52,7 +57,11 @@ public class DatasourceConfigTest {
     @Resource
     private TransactionTemplate comboTransactionTemplate;
 
-    @Resource
+    @Resource(name = "comboPooledDataSource02")
+    private ComboPooledDataSource comboPooledDataSource02;
+
+    /* ====================================== Druid ====================================== */
+    @Resource(name = "druidDataSource")
     private DruidDataSource druidDataSource;
     @Resource
     private JdbcTemplate druidJdbcTemplate;
@@ -62,6 +71,10 @@ public class DatasourceConfigTest {
     private TransactionTemplate druidTransactionTemplate;
 
     @Resource
+    private DruidDataSource druidDataSource02;
+
+    /* ====================================== Dbcp2 ====================================== */
+    @Resource
     private BasicDataSource basicDataSource;
     @Resource
     private JdbcTemplate basicJdbcTemplate;
@@ -69,6 +82,9 @@ public class DatasourceConfigTest {
     private DataSourceTransactionManager basicDataSourceTransactionManager;
     @Resource
     private TransactionTemplate basicTransactionTemplate;
+
+    @Resource
+    private BasicDataSource basicDataSource02;
 
     @Test
     public void testDataSourceConfig() throws SQLException {
@@ -119,6 +135,19 @@ public class DatasourceConfigTest {
         testConnectSelect(druidDataSource.getConnection(), "Druid");
         testConnectSelect(basicDataSource.getConnection(), "DBCP2");
 
+    }
+
+    @Test
+    public void testDatasourceConfig02() throws SQLException {
+        Assert.assertNotNull(hikariDataSource02);
+        Assert.assertNotNull(comboPooledDataSource02);
+        Assert.assertNotNull(druidDataSource02);
+        Assert.assertNotNull(basicDataSource02);
+
+        testConnectSelect(hikariDataSource02.getConnection(), "Hikari");
+        testConnectSelect(comboPooledDataSource02.getConnection(), "C3P0");
+        testConnectSelect(druidDataSource02.getConnection(), "Druid");
+        testConnectSelect(basicDataSource02.getConnection(), "DBCP2");
     }
 
 

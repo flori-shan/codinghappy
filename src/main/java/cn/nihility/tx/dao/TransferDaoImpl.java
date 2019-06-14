@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public class TransferDaoImpl implements TransferDao {
 
     @Autowired
-    @Qualifier("hikariDataSource")
+    @Qualifier("hikariJdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
     @Override

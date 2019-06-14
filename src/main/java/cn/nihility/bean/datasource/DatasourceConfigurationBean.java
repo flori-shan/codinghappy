@@ -5,10 +5,11 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -16,15 +17,20 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.beans.PropertyVetoException;
 
 /**
- * Datasource Configuration Bean
+ *
+ * @Autowired  --> 四种模式 ： byName、byType、constructor、autodectect
+ * @Qualifier(value = "basicDataSource") 没有作用,不能够按照指定的名称注入 Bean
+ *  执行顺序：1. 先查找 Autowired 指定类型的 Bean 2. 若没有找到 Bean 则会报异常
+ *          3. 找到一个指定类型的 Bean 则会自动匹配，并把 Bean 装配到要 Inject 的字段当中
+ *          4. 若有多个 Bean 则按照注入字段的名称匹配注入 Bean 值，匹配成功后装配到指定字段当中。
  * @author muscari
  * @date 2019-06-13 14:21
  */
 @Configuration
+@PropertySource(encoding = "UTF-8", value = {"classpath:properties/datasource02.properties"})
 public class DatasourceConfigurationBean {
 
     /* ======================== Hikari ======================== */
-
     @Bean(name = "hikariDataSource", destroyMethod = "close")
     @Autowired
     @Primary
@@ -44,9 +50,15 @@ public class DatasourceConfigurationBean {
         return hikariDataSource;
     }
 
+    @Bean(name = "hikariDataSource02", destroyMethod = "close")
+    @ConfigurationProperties(prefix = "hikari")
+    public HikariDataSource hikariDataSource2() {
+        HikariDataSource hikariDataSource = new HikariDataSource();
+        return hikariDataSource;
+    }
+
     @Bean(name = "hikariJdbcTemplate")
     @Autowired
-    @Qualifier("hikariDataSource")
     @Primary
     public JdbcTemplate hikariJdbcTemplate(HikariDataSource hikariDataSource) {
         return new JdbcTemplate(hikariDataSource);
@@ -54,7 +66,6 @@ public class DatasourceConfigurationBean {
 
     @Bean(name = "hikariDataSourceTransactionManager")
     @Autowired
-    @Qualifier("hikariDataSource")
     @Primary
     public DataSourceTransactionManager hikariDataSourceTransactionManager(HikariDataSource hikariDataSource) {
         return new DataSourceTransactionManager(hikariDataSource);
@@ -62,7 +73,6 @@ public class DatasourceConfigurationBean {
 
     @Bean(name = "hikariTransactionTemplate")
     @Autowired
-    @Qualifier("hikariDataSourceTransactionManager")
     @Primary
     public TransactionTemplate hikariTransactionTemplate(DataSourceTransactionManager hikariDataSourceTransactionManager) {
         return new TransactionTemplate(hikariDataSourceTransactionManager);
@@ -93,23 +103,27 @@ public class DatasourceConfigurationBean {
         return comboPooledDataSource;
     }
 
+    @Bean(name = {"comboPooledDataSource02"}, destroyMethod = "close")
+    @ConfigurationProperties(prefix = "combo")
+    public ComboPooledDataSource  comboPooledDataSource02() {
+        ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+        return comboPooledDataSource;
+    }
+
     @Bean(name = "comboJdbcTemplate")
     @Autowired
-    @Qualifier("comboPooledDataSource")
     public JdbcTemplate comboJdbcTemplate(ComboPooledDataSource comboPooledDataSource) {
         return new JdbcTemplate(comboPooledDataSource);
     }
 
     @Bean(name = "comboDataSourceTransactionManager")
     @Autowired
-    @Qualifier("comboPooledDataSource")
     public DataSourceTransactionManager comboDataSourceTransactionManager(ComboPooledDataSource comboPooledDataSource) {
         return new DataSourceTransactionManager(comboPooledDataSource);
     }
 
     @Bean(name = "comboTransactionTemplate")
     @Autowired
-    @Qualifier("comboDataSourceTransactionManager")
     public TransactionTemplate comboTransactionTemplate(DataSourceTransactionManager comboDataSourceTransactionManager) {
         return new TransactionTemplate(comboDataSourceTransactionManager);
     }
@@ -138,23 +152,27 @@ public class DatasourceConfigurationBean {
         return druidDataSource;
     }
 
+    @Bean(name = "druidDataSource02", destroyMethod = "close")
+    @ConfigurationProperties(prefix = "druid")
+    public DruidDataSource druidDataSource02() {
+        DruidDataSource druidDataSource = new DruidDataSource();
+        return druidDataSource;
+    }
+
     @Bean(name = "druidJdbcTemplate")
     @Autowired
-    @Qualifier("druidDataSource")
-    public JdbcTemplate druidJdbcTemplate(DruidDataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+    public JdbcTemplate druidJdbcTemplate(DruidDataSource druidDataSource) {
+        return new JdbcTemplate(druidDataSource);
     }
 
     @Bean(name = "druidDataSourceTransactionManager")
     @Autowired
-    @Qualifier("druidDataSource")
-    public DataSourceTransactionManager druidDataSourceTransactionManager(DruidDataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+    public DataSourceTransactionManager druidDataSourceTransactionManager(DruidDataSource druidDataSource) {
+        return new DataSourceTransactionManager(druidDataSource);
     }
 
     @Bean(name = "druidTransactionTemplate")
     @Autowired
-    @Qualifier("druidDataSourceTransactionManager")
     public TransactionTemplate druidTransactionTemplate(DataSourceTransactionManager druidDataSourceTransactionManager) {
         return new TransactionTemplate(druidDataSourceTransactionManager);
     }
@@ -185,23 +203,27 @@ public class DatasourceConfigurationBean {
         return basicDataSource;
     }
 
+    @Bean(name = "basicDataSource02", destroyMethod = "close")
+    @ConfigurationProperties(prefix = "dbcp2")
+    public BasicDataSource basicDataSource02() {
+        BasicDataSource basicDataSource = new BasicDataSource();
+        return basicDataSource;
+    }
+
     @Bean(name = "basicJdbcTemplate")
     @Autowired
-    @Qualifier("basicDataSource")
-    public JdbcTemplate basicJdbcTemplate(BasicDataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+    public JdbcTemplate basicJdbcTemplate(BasicDataSource basicDataSource) {
+        return new JdbcTemplate(basicDataSource);
     }
 
     @Bean(name = "basicDataSourceTransactionManager")
     @Autowired
-    @Qualifier("basicDataSource")
-    public DataSourceTransactionManager basicDataSourceTransactionManager(BasicDataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+    public DataSourceTransactionManager basicDataSourceTransactionManager(BasicDataSource basicDataSource) {
+        return new DataSourceTransactionManager(basicDataSource);
     }
 
     @Bean(name = "basicTransactionTemplate")
     @Autowired
-    @Qualifier("basicDataSourceTransactionManager")
     public TransactionTemplate basicTransactionTemplate(DataSourceTransactionManager basicDataSourceTransactionManager) {
         return new TransactionTemplate(basicDataSourceTransactionManager);
     }
