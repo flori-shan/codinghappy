@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.nihility.mybatis.dao.SpringDao">
+
+    <select id="getSprings" resultType="cn.nihility.mybatis.entity.Spring">
+        select id, name, createdate from spring
+    </select>
+
+<!--    <insert id="insertData" parameterType="java.util.Map">
+        INSERT INTO ${table} (id, name)
+        VALUES (#{id}, #{name})
+    </insert>-->
+
+    <insert id="insertData" parameterType="Map">
+        INSERT INTO ${table} <foreach collection="items" item="it" separator="," open="(" close=")">${it}</foreach>
+        VALUES <foreach collection="values" item="vs" separator="," open="(" close=")">#{vs}</foreach>
+    </insert>
+
+    <select id="query" parameterType="cn.nihility.mybatis.entity.QueryParamsEntity" resultType="java.util.HashMap">
+        SELECT <foreach collection="queryFields" separator="," item="field">${field}</foreach>
+        FROM ${table}
+        <where>
+            <if test="queryStaticParams != null and queryStaticParams != ''">${queryStaticParams}</if>
+            <foreach collection="queryStaticParamsList" item="item" separator=" AND " open="AND"> ${item} </foreach>
+            <foreach collection="queryFieldsAndValues" item="it" index="key" separator=" AND " open="AND"> ${key} = #{it} </foreach>
+        </where>
+    </select>
+
+    <update id="update" parameterType="cn.nihility.mybatis.entity.UpdateParamsEntity">
+        UPDATE ${table}
+        <set>
+            <foreach collection="updateFieldsAndValues" index="key" item="item" separator="," close=",">${key} = #{item}</foreach>
+            <if test="updateStaticFieldSet != null &amp;&amp; updateStaticFieldSet.trim() != &quot;&quot;">${updateStaticFieldSet}</if>
+        </set>
+        <where>
+            <if test="whereStaticValue != null &amp;&amp; whereStaticValue.trim() != &quot;&quot;">${whereStaticValue}</if>
+            <foreach collection="whereItems" index="key" item="item" separator=" AND " open="AND"> ${key} = #{item} </foreach>
+        </where>
+    </update>
+
+    <insert id="insert" parameterType="cn.nihility.mybatis.entity.InsertParamsEntity">
+        INSERT INTO ${table}
+            <trim prefix="(" suffix=")" prefixOverrides=",">
+                <foreach collection="insertStaticFields" item="item" separator=",">${item}</foreach>
+                <foreach collection="insertFields" item="item" separator="," open=",">${item}</foreach>
+            </trim>
+        VALUES
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <foreach collection="insertStaticValues" item="item" separator=",">${item}</foreach>
+            <foreach collection="insertValues" item="item" separator="," open=",">#{item} </foreach>
+        </trim>
+    </insert>
+
+</mapper>
