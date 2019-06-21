@@ -5,6 +5,7 @@ import cn.nihility.mybatis.entity.InsertParamsEntity;
 import cn.nihility.mybatis.entity.QueryParamsEntity;
 import cn.nihility.mybatis.entity.Spring;
 import cn.nihility.mybatis.entity.UpdateParamsEntity;
+import cn.nihility.mybatis.service.PrepareTableData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class MybatisTest {
 
     @Autowired
     private SpringDao springDao;
+
+    @Autowired
+    private PrepareTableData prepareTableData;
 
     @Test
     public void test() {
@@ -128,6 +132,13 @@ public class MybatisTest {
 
         int insert = springDao.insert(insertParamsEntity);
         System.out.println("Insert cnt " + insert);
+
+    }
+
+    @Test
+    public void testGetTableData() {
+
+        System.out.println(prepareTableData.getTableData().toJSONObject());
 
     }
 
