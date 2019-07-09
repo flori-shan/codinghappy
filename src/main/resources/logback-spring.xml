@@ -90,7 +90,9 @@
         </filter>
     </appender>
 
-    <root level="DEBUG">
+    <logger level="DEBUG" name="cn.nihility" />
+
+    <root level="INFO">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
         <appender-ref ref="ROLLFILE" />
